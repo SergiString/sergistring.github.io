@@ -363,17 +363,25 @@
       color: var(--accent);
     }
 
+    
     /* ── HABILITATS ── */
     .skills-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 2px;
-      background: var(--rule);
-      border: 1px solid var(--rule);
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1.25rem;
+      align-items: stretch;
     }
     .skill-group {
-      background: var(--cream);
-      padding: 1.5rem;
+      background:
+        linear-gradient(180deg, rgba(192,57,43,0.05) 0%, rgba(192,57,43,0.015) 100%),
+        var(--cream);
+      border: 1px solid var(--rule);
+      padding: 1.45rem;
+      min-height: 100%;
+      box-shadow: 0 14px 38px rgba(26,23,20,0.05);
+      display: grid;
+      gap: 1rem;
+      align-content: start;
     }
     .skill-group-title {
       font-family: var(--mono);
@@ -382,30 +390,452 @@
       color: var(--accent);
       letter-spacing: 0.1em;
       text-transform: uppercase;
-      margin-bottom: 1rem;
-      padding-bottom: 0.7rem;
-      border-bottom: 1px solid var(--rule);
+      margin-bottom: 0.1rem;
+    }
+    .skill-group-copy {
+      color: var(--ink-muted);
+      font-size: 0.93rem;
+      line-height: 1.65;
+      max-width: 44ch;
+    }
+    .skill-icons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.65rem;
+    }
+    .icon-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      padding: 0.55rem 0.75rem;
+      border: 1px solid var(--rule);
+      background: color-mix(in srgb, var(--cream) 94%, var(--accent-soft) 6%);
+      color: var(--ink);
+      font-family: var(--mono);
+      font-size: 10.5px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      min-height: 38px;
+    }
+    .icon-chip img {
+      width: 16px;
+      height: 16px;
+      object-fit: contain;
+      flex-shrink: 0;
     }
     .skill-list {
       list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
+      display: grid;
+      gap: 0.55rem;
+      margin-top: 0.2rem;
     }
     .skill-list li {
-      font-size: 0.9rem;
+      font-size: 0.92rem;
       color: var(--ink-muted);
       display: flex;
-      align-items: center;
-      gap: 0.6rem;
+      align-items: flex-start;
+      gap: 0.65rem;
     }
     .skill-list li::before {
       content: '';
-      width: 4px;
-      height: 4px;
+      width: 5px;
+      height: 5px;
+      border-radius: 999px;
       background: var(--accent);
       flex-shrink: 0;
+      margin-top: 0.58rem;
     }
+
+
+    /* ── PROJECT MODAL / DETAIL ── */
+    .project-item[data-project] {
+      cursor: pointer;
+      padding-right: 2.5rem;
+    }
+    .project-item[data-project] .project-name::after {
+      content: ' ·';
+      color: var(--accent);
+      margin-left: 0.2rem;
+    }
+    .project-item[data-project] .project-name::before {
+      content: '';
+    }
+    .project-detail-hint {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      margin-top: 0.8rem;
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .project-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(10, 8, 7, 0.64);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      z-index: 300;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.28s ease;
+      backdrop-filter: blur(4px);
+    }
+    .project-modal.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .project-modal-panel {
+      width: min(1020px, 100%);
+      max-height: min(88vh, 920px);
+      overflow: auto;
+      background: var(--cream);
+      color: var(--ink);
+      border: 1px solid var(--rule);
+      box-shadow: 0 18px 60px rgba(0,0,0,0.18);
+      padding: 1.6rem;
+      position: relative;
+    }
+    .project-modal-close {
+      position: sticky;
+      top: 0;
+      margin-left: auto;
+      display: block;
+      width: 40px;
+      height: 40px;
+      border: 1px solid var(--rule);
+      background: var(--cream);
+      color: var(--ink);
+      font-size: 1.2rem;
+      cursor: pointer;
+      z-index: 2;
+    }
+    .project-modal-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(280px, 0.85fr);
+      gap: 1.8rem;
+      align-items: start;
+    }
+    .project-modal-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin: 0.8rem 0 1rem;
+    }
+    .project-modal-label {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+    .project-modal-title {
+      font-family: var(--serif);
+      font-size: clamp(2rem, 4vw, 3rem);
+      line-height: 1.05;
+      margin-bottom: 0.5rem;
+    }
+    .project-modal-intro,
+    .project-modal-copy,
+    .project-sidebar p {
+      color: var(--ink-muted);
+      font-size: 0.96rem;
+    }
+    .project-modal-copy {
+      margin-top: 1rem;
+      display: grid;
+      gap: 0.8rem;
+    }
+    .project-preview {
+      border: 1px solid var(--rule);
+      background:
+        linear-gradient(180deg, rgba(192,57,43,0.05) 0%, transparent 100%),
+        var(--cream);
+      min-height: 360px;
+      overflow: hidden;
+    }
+    .browser-top {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.8rem 1rem;
+      border-bottom: 1px solid var(--rule);
+    }
+    .browser-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: var(--rule);
+    }
+    .browser-bar {
+      margin-left: 0.4rem;
+      height: 12px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      flex: 1;
+    }
+    .preview-body {
+      padding: 1.3rem;
+      display: grid;
+      gap: 1rem;
+    }
+    .preview-panel,
+    .preview-line,
+    .preview-chip,
+    .preview-box {
+      border: 1px solid var(--rule);
+      background: rgba(255,255,255,0.25);
+    }
+    body[data-theme="dark"] .preview-panel,
+    body[data-theme="dark"] .preview-line,
+    body[data-theme="dark"] .preview-chip,
+    body[data-theme="dark"] .preview-box {
+      background: rgba(255,255,255,0.03);
+    }
+    .preview-hero {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 1rem;
+    }
+    .preview-panel {
+      min-height: 120px;
+      padding: 1rem;
+    }
+    .preview-line {
+      height: 10px;
+      margin-bottom: 0.6rem;
+    }
+    .preview-line.short { width: 52%; }
+    .preview-line.medium { width: 74%; }
+    .preview-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.8rem;
+    }
+    .preview-box {
+      min-height: 72px;
+      padding: 0.8rem;
+    }
+    .preview-chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+    }
+    .preview-chip {
+      height: 26px;
+      min-width: 72px;
+      padding: 0.4rem;
+    }
+    .project-sidebar {
+      display: grid;
+      gap: 1.2rem;
+    }
+    .project-sidebar-card {
+      border: 1px solid var(--rule);
+      padding: 1.1rem;
+      background: rgba(192,57,43,0.03);
+    }
+    .project-sidebar-list {
+      list-style: none;
+      display: grid;
+      gap: 0.65rem;
+    }
+    .project-sidebar-list li {
+      color: var(--ink-muted);
+      font-size: 0.92rem;
+      padding-left: 0.85rem;
+      position: relative;
+    }
+    .project-sidebar-list li::before {
+      content: '';
+      width: 5px;
+      height: 5px;
+      border-radius: 999px;
+      background: var(--accent);
+      position: absolute;
+      left: 0;
+      top: 0.62rem;
+    }
+
+    
+    /* ── CONTACT FORM ── */
+    .contact-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(280px, 0.75fr);
+      gap: 1.4rem;
+      text-align: left;
+      margin-top: 2.6rem;
+      align-items: start;
+    }
+    .contact-form {
+      border: 1px solid var(--rule);
+      padding: 1.8rem;
+      background:
+        linear-gradient(180deg, rgba(192,57,43,0.05) 0%, rgba(192,57,43,0.015) 100%),
+        var(--cream);
+      box-shadow: 0 16px 44px rgba(26,23,20,0.08);
+    }
+    .contact-form-top {
+      display: grid;
+      gap: 0.45rem;
+      margin-bottom: 1.35rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--rule);
+    }
+    .contact-form-kicker {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+    .contact-form-title {
+      font-family: var(--serif);
+      font-size: clamp(1.5rem, 3vw, 2.1rem);
+      line-height: 1.1;
+    }
+    .contact-form-copy {
+      color: var(--ink-muted);
+      font-size: 0.95rem;
+      max-width: 54ch;
+    }
+    .contact-card {
+      display: grid;
+      gap: 1rem;
+      align-content: start;
+    }
+    .contact-panel {
+      border: 1px solid var(--rule);
+      padding: 1.25rem;
+      background: var(--cream);
+      box-shadow: 0 14px 36px rgba(26,23,20,0.05);
+    }
+    .contact-panel p {
+      color: var(--ink-muted);
+      font-size: 0.94rem;
+      margin-top: 0.7rem;
+    }
+    .contact-form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem 1rem;
+    }
+    .form-field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.46rem;
+      margin-bottom: 0.1rem;
+    }
+    .form-field.full {
+      grid-column: 1 / -1;
+    }
+    .form-field label {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+    .form-field input,
+    .form-field textarea {
+      width: 100%;
+      border: 1px solid var(--rule);
+      background: color-mix(in srgb, var(--cream) 95%, var(--accent-soft) 5%);
+      color: var(--ink);
+      font: inherit;
+      padding: 0.95rem 1rem;
+      outline: none;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, transform 0.2s ease;
+    }
+    .form-field textarea {
+      min-height: 190px;
+      resize: vertical;
+    }
+    .form-field input:focus,
+    .form-field textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(192,57,43,0.08);
+      background: var(--cream);
+      transform: translateY(-1px);
+    }
+    .contact-form-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 1.2rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--rule);
+    }
+    .contact-status {
+      font-size: 0.92rem;
+      color: var(--ink-muted);
+      min-height: 1.5rem;
+      flex: 1;
+      text-align: right;
+    }
+    .contact-links {
+      display: grid;
+      gap: 0.75rem;
+    }
+    .contact-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.9rem;
+      padding: 0.95rem 1rem;
+      text-decoration: none;
+      color: var(--ink);
+      border: 1px solid var(--rule);
+      transition: border-color 0.2s ease, transform 0.2s ease, background 0.2s ease;
+      background: color-mix(in srgb, var(--cream) 96%, var(--accent-soft) 4%);
+    }
+    .contact-link:hover {
+      border-color: var(--accent);
+      transform: translateY(-1px);
+      background: color-mix(in srgb, var(--cream) 92%, var(--accent-soft) 8%);
+    }
+    .contact-link-main {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      min-width: 0;
+    }
+    .contact-link-icon {
+      width: 18px;
+      height: 18px;
+      color: var(--accent);
+      flex-shrink: 0;
+    }
+    .contact-link-label {
+      font-family: var(--mono);
+      font-size: 10.5px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      display: block;
+      margin-bottom: 0.1rem;
+    }
+    .contact-link-value {
+      font-size: 0.95rem;
+      color: var(--ink);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .contact-link-arrow {
+      font-size: 1rem;
+      color: var(--accent);
+      flex-shrink: 0;
+    }
+
 
     /* ── CONTACTE ── */
     #contact {
@@ -524,6 +954,13 @@
         font-size: 10px;
       }
       .nav-toggle { display: flex; }
+      .contact-layout,
+      .project-modal-grid,
+      .preview-hero,
+      .contact-form-grid,
+      .preview-grid { grid-template-columns: 1fr; }
+      .project-modal { padding: 1rem; }
+      .project-modal-panel { padding: 1rem; }
       .nav-links {
         display: none;
         position: absolute;
@@ -655,7 +1092,7 @@
   <div class="project-list">
 
     <!-- HomeTab -->
-    <div class="project-item reveal">
+    <div class="project-item reveal" data-project="hometab" tabindex="0" role="button" aria-label="Open HomeTab details">
       <span class="project-num">01</span>
       <div>
         <h3 class="project-name">HomeTab</h3>
@@ -671,11 +1108,13 @@
           <span class="tech-pill">Web Extensions API</span>
         </div>
       </div>
+        <span class="project-detail-hint" data-i18n="project_open_hint">Veure detall del projecte</span>
+      </div>
       <span class="project-badge featured" data-i18n="badge_featured">Projecte principal</span>
     </div>
 
     <!-- Tragaperras -->
-    <div class="project-item reveal">
+    <div class="project-item reveal" data-project="slot" tabindex="0" role="button" aria-label="Open Tragaperras details">
       <span class="project-num">02</span>
       <div>
         <h3 class="project-name">Tragaperras</h3>
@@ -690,11 +1129,17 @@
           <span class="tech-pill">JavaScript</span>
         </div>
       </div>
+        <span class="project-detail-hint" data-i18n="project_open_hint">Veure detall del projecte</span>
+      </div>
+        <span class="project-detail-hint" data-i18n="project_open_hint">Veure detall del projecte</span>
+      </div>
+        <span class="project-detail-hint" data-i18n="project_open_hint">Veure detall del projecte</span>
+      </div>
       <span class="project-badge" data-i18n="badge_practice">Pràctica</span>
     </div>
 
     <!-- Aplicació del temps -->
-    <div class="project-item reveal">
+    <div class="project-item reveal" data-project="weather" tabindex="0" role="button" aria-label="Open Weather App details">
       <span class="project-num">03</span>
       <div>
         <h3 class="project-name">Aplicació del temps</h3>
@@ -714,7 +1159,7 @@
     </div>
 
     <!-- Tolkien's Rest -->
-    <div class="project-item reveal">
+    <div class="project-item reveal" data-project="tolkien" tabindex="0" role="button" aria-label="Open Tolkien\'s Rest details">
       <span class="project-num">04</span>
       <div>
         <h3 class="project-name">Tolkien's Rest</h3>
@@ -746,6 +1191,50 @@
   </div>
 </section>
 
+
+<div class="project-modal" id="project-modal" aria-hidden="true">
+  <div class="project-modal-panel">
+    <button class="project-modal-close" id="project-modal-close" type="button" aria-label="Tancar">×</button>
+    <div class="project-modal-grid">
+      <div>
+        <p class="project-modal-label" id="project-modal-label">Projecte</p>
+        <h3 class="project-modal-title" id="project-modal-title">HomeTab</h3>
+        <p class="project-modal-intro" id="project-modal-intro"></p>
+
+        <div class="project-modal-meta" id="project-modal-tech"></div>
+
+        <div class="project-preview" id="project-preview">
+          <div class="browser-top">
+            <span class="browser-dot"></span>
+            <span class="browser-dot"></span>
+            <span class="browser-dot"></span>
+            <div class="browser-bar"></div>
+          </div>
+          <div class="preview-body" id="project-preview-body"></div>
+        </div>
+
+        <div class="project-modal-copy" id="project-modal-copy"></div>
+      </div>
+
+      <aside class="project-sidebar">
+        <div class="project-sidebar-card">
+          <p class="project-modal-label" id="project-sidebar-role-label">Rol</p>
+          <p id="project-sidebar-role"></p>
+        </div>
+        <div class="project-sidebar-card">
+          <p class="project-modal-label" id="project-sidebar-learned-label">Què vaig treballar</p>
+          <ul class="project-sidebar-list" id="project-sidebar-learned"></ul>
+        </div>
+        <div class="project-sidebar-card">
+          <p class="project-modal-label" id="project-sidebar-next-label">Següent pas</p>
+          <p id="project-sidebar-next"></p>
+        </div>
+      </aside>
+    </div>
+  </div>
+</div>
+
+
 <!-- ── HABILITATS ── -->
 <section id="habilitats">
   <div class="section-header reveal">
@@ -757,44 +1246,72 @@
   <div class="skills-grid reveal">
     <div class="skill-group">
       <p class="skill-group-title" data-i18n="skill_group_frontend">Front-end</p>
+      <p class="skill-group-copy" data-i18n="skill_group_frontend_copy">Interfícies netes, responsive i agradables de fer servir, amb especial atenció al detall visual i a l'estructura.</p>
+      <div class="skill-icons">
+        <span class="icon-chip"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="HTML" loading="lazy" />HTML</span>
+        <span class="icon-chip"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt="CSS" loading="lazy" />CSS</span>
+        <span class="icon-chip"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" alt="JavaScript" loading="lazy" />JavaScript</span>
+        <span class="icon-chip"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vuejs/vuejs-original.svg" alt="Vue" loading="lazy" />Vue</span>
+        <span class="icon-chip"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bootstrap/bootstrap-original.svg" alt="Bootstrap" loading="lazy" />Bootstrap</span>
+        <span class="icon-chip"><img src="https://cdn.simpleicons.org/primevue/41B883" alt="PrimeVue" loading="lazy" />PrimeVue</span>
+      </div>
       <ul class="skill-list">
-        <li data-i18n="skill_html">HTML5 semàntic</li>
-        <li data-i18n="skill_css">CSS3 / Flexbox / Grid</li>
-        <li data-i18n="skill_js">JavaScript (ES6+)</li>
-        <li data-i18n="skill_dom">DOM · Events · Fetch</li>
         <li data-i18n="skill_responsive">Responsive design</li>
+        <li data-i18n="skill_dom">DOM · Events · Fetch</li>
       </ul>
     </div>
+
     <div class="skill-group">
       <p class="skill-group-title" data-i18n="skill_group_backend">Back-end</p>
+      <p class="skill-group-copy" data-i18n="skill_group_backend_copy">Construcció de lògica, integració entre capes i interès creixent pel costat més estructurat del desenvolupament.</p>
+      <div class="skill-icons">
+        <span class="icon-chip"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg" alt="PHP" loading="lazy" />PHP</span>
+        <span class="icon-chip"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/symfony/symfony-original.svg" alt="Symfony" loading="lazy" />Symfony</span>
+        <span class="icon-chip"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python" loading="lazy" />Python</span>
+        <span class="icon-chip"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/csharp/csharp-original.svg" alt="C#" loading="lazy" />C#</span>
+        <span class="icon-chip"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original-wordmark.svg" alt="AWS" loading="lazy" />AWS</span>
+      </div>
       <ul class="skill-list">
-        <li data-i18n="skill_php">PHP monolític</li>
-        <li data-i18n="skill_java">Java (aprenent)</li>
-        <li data-i18n="skill_sql">SQL bàsic</li>
         <li data-i18n="skill_mvc">Estructura MVC</li>
+        <li data-i18n="skill_sql">SQL bàsic</li>
       </ul>
     </div>
+
     <div class="skill-group">
       <p class="skill-group-title" data-i18n="skill_group_tools">Eines</p>
+      <p class="skill-group-copy" data-i18n="skill_group_tools_copy">Flux de treball pràctic per desenvolupar, versionar i prototipar projectes amb autonomia.</p>
+      <div class="skill-icons">
+        <span class="icon-chip"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" alt="Git" loading="lazy" />Git</span>
+        <span class="icon-chip"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub" loading="lazy" />GitHub</span>
+        <span class="icon-chip"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg" alt="VS Code" loading="lazy" />VS Code</span>
+      </div>
       <ul class="skill-list">
-        <li data-i18n="skill_git">Git / GitHub</li>
-        <li data-i18n="skill_vscode">VS Code</li>
-        <li data-i18n="skill_figma">Figma (bàsic)</li>
         <li data-i18n="skill_terminal">Terminal / Bash</li>
+        <li data-i18n="skill_figma">Figma (bàsic)</li>
+        <li data-i18n="skill_learning">Aprenentatge autònom</li>
       </ul>
     </div>
+
     <div class="skill-group">
       <p class="skill-group-title" data-i18n="skill_group_soft">Soft skills</p>
+      <p class="skill-group-copy" data-i18n="skill_group_soft_copy">Bagatge previ en llengua i comunicació aplicat ara a projectes web més clars, coherents i ben explicats.</p>
+      <div class="skill-icons">
+        <span class="icon-chip">Precisió</span>
+        <span class="icon-chip">Claredat</span>
+        <span class="icon-chip">Autonomia</span>
+        <span class="icon-chip">Equip</span>
+      </div>
       <ul class="skill-list">
         <li data-i18n="skill_precision">Precisió lingüística</li>
         <li data-i18n="skill_detail">Gestió del detall</li>
         <li data-i18n="skill_written">Comunicació escrita</li>
-        <li data-i18n="skill_learning">Aprenentatge autònom</li>
         <li data-i18n="skill_team">Treball en equip</li>
       </ul>
     </div>
   </div>
 </section>
+
+
 
 <!-- ── CONTACTE ── -->
 <section id="contact">
@@ -803,12 +1320,91 @@
   <p class="contact-sub reveal" data-i18n="contact_sub">
     Estic obert a pràctiques, col·laboracions i nous reptes.
   </p>
-  <div class="contact-links reveal">
-    <a href="mailto:tu@email.com" class="btn btn-primary">tu@email.com</a>
-    <a href="https://github.com/el-teu-usuari" target="_blank" rel="noopener" class="btn btn-outline">GitHub</a>
-    <a href="https://linkedin.com/in/el-teu-usuari" target="_blank" rel="noopener" class="btn btn-outline">LinkedIn</a>
+
+  <div class="contact-layout">
+    <form class="contact-form reveal" id="contact-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+      <input type="hidden" name="_subject" value="Nou missatge des del portfolio" />
+      <input type="hidden" name="_language" value="ca" id="form-language" />
+
+      <div class="contact-form-top">
+        <p class="contact-form-kicker" data-i18n="contact_form_kicker">Formulari de contacte</p>
+        <h3 class="contact-form-title" data-i18n="contact_form_title">Escriu-me directament des d'aquí</h3>
+        <p class="contact-form-copy" data-i18n="contact_form_copy">He deixat el formulari preparat per a Formspree perquè sigui fàcil de connectar i et pugui arribar al correu sense muntar backend propi.</p>
+      </div>
+
+      <div class="contact-form-grid">
+        <div class="form-field">
+          <label for="name" data-i18n="form_name">Nom</label>
+          <input id="name" name="name" type="text" placeholder="El teu nom" data-i18n-placeholder="form_name_placeholder" required />
+        </div>
+        <div class="form-field">
+          <label for="email" data-i18n="form_email">Correu electrònic</label>
+          <input id="email" name="email" type="email" placeholder="tu@email.com" data-i18n-placeholder="form_email_placeholder" required />
+        </div>
+        <div class="form-field full">
+          <label for="subject" data-i18n="form_subject">Assumpte</label>
+          <input id="subject" name="subject" type="text" placeholder="Sobre una oportunitat, col·laboració o pràctiques" data-i18n-placeholder="form_subject_placeholder" required />
+        </div>
+        <div class="form-field full">
+          <label for="message" data-i18n="form_message">Missatge</label>
+          <textarea id="message" name="message" placeholder="Escriu aquí el teu missatge..." data-i18n-placeholder="form_message_placeholder" required></textarea>
+        </div>
+      </div>
+
+      <div class="contact-form-actions">
+        <button type="submit" class="btn btn-primary" data-i18n="form_submit">Enviar missatge</button>
+        <p class="contact-status" id="contact-status" data-i18n="form_status_config"></p>
+      </div>
+    </form>
+
+    <div class="contact-card reveal">
+      <div class="contact-panel">
+        <p class="aside-label" data-i18n="contact_card_title">Com ho deixem preparat?</p>
+        <p data-i18n="contact_card_p1">Només hauràs de substituir <strong>YOUR_FORM_ID</strong> per l'endpoint real de Formspree i el formulari ja podrà enviar submissions al teu correu.</p>
+        <p data-i18n="contact_card_p2">Això et permet tenir una web estàtica i, alhora, rebre missatges reals sense muntar PHP, servidor ni infraestructura extra.</p>
+      </div>
+
+      <div class="contact-panel">
+        <p class="aside-label" data-i18n="contact_links_title">Altres vies de contacte</p>
+        <div class="contact-links">
+          <a href="mailto:tu@email.com" class="contact-link">
+            <span class="contact-link-main">
+              <svg class="contact-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 6h16v12H4z"/><path d="m4 7 8 6 8-6"/></svg>
+              <span>
+                <span class="contact-link-label" data-i18n="contact_email_label">Correu</span>
+                <span class="contact-link-value">tu@email.com</span>
+              </span>
+            </span>
+            <span class="contact-link-arrow">↗</span>
+          </a>
+
+          <a href="https://github.com/el-teu-usuari" target="_blank" rel="noopener" class="contact-link">
+            <span class="contact-link-main">
+              <svg class="contact-link-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5a12 12 0 0 0-3.79 23.39c.6.11.82-.26.82-.58v-2.04c-3.34.73-4.04-1.42-4.04-1.42-.55-1.38-1.33-1.75-1.33-1.75-1.08-.74.08-.73.08-.73 1.2.08 1.83 1.23 1.83 1.23 1.06 1.82 2.79 1.29 3.47.99.11-.78.42-1.29.76-1.59-2.66-.3-5.47-1.33-5.47-5.92 0-1.31.47-2.39 1.23-3.23-.12-.3-.53-1.52.12-3.17 0 0 1.01-.32 3.3 1.23a11.47 11.47 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.65 1.65.24 2.87.12 3.17.77.84 1.23 1.92 1.23 3.23 0 4.6-2.81 5.61-5.49 5.91.43.37.82 1.1.82 2.22v3.29c0 .32.21.7.83.58A12 12 0 0 0 12 .5Z"/></svg>
+              <span>
+                <span class="contact-link-label">GitHub</span>
+                <span class="contact-link-value">github.com/el-teu-usuari</span>
+              </span>
+            </span>
+            <span class="contact-link-arrow">↗</span>
+          </a>
+
+          <a href="https://linkedin.com/in/el-teu-usuari" target="_blank" rel="noopener" class="contact-link">
+            <span class="contact-link-main">
+              <svg class="contact-link-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5A2.48 2.48 0 1 0 5 8.46a2.48 2.48 0 0 0-.02-4.96ZM3 9h4v12H3Zm7 0h3.83v1.64h.05c.53-1 1.84-2.06 3.79-2.06 4.05 0 4.8 2.66 4.8 6.12V21h-4v-5.64c0-1.35-.02-3.08-1.88-3.08-1.88 0-2.17 1.47-2.17 2.98V21h-4Z"/></svg>
+              <span>
+                <span class="contact-link-label">LinkedIn</span>
+                <span class="contact-link-value">linkedin.com/in/el-teu-usuari</span>
+              </span>
+            </span>
+            <span class="contact-link-arrow">↗</span>
+          </a>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
+
 
 <!-- ── FOOTER ── -->
 <footer>
@@ -817,6 +1413,7 @@
 </footer>
 
 <!-- ── JS ── -->
+
 <script>
   const translations = {
     ca: {
@@ -852,6 +1449,7 @@
       project_coming: 'Properament…',
       project_coming_desc: 'Nou projecte en curs.',
       badge_progress: 'En procés',
+      project_open_hint: 'Veure detall del projecte',
       skills_title: 'Habilitats',
       skill_group_frontend: 'Front-end',
       skill_group_backend: 'Back-end',
@@ -878,7 +1476,41 @@
       contact_eyebrow: 'Parlem',
       contact_heading: "T'interessa el meu perfil?",
       contact_sub: 'Estic obert a pràctiques, col·laboracions i nous reptes.',
-      footer_made: 'Fet amb HTML · CSS · JS'
+      contact_card_title: 'Per què un formulari?',
+      contact_card_p1: 'Perquè dona una sensació més professional i converteix la pàgina en un portfolio més complet. Encara que després vulguis connectar-lo amb PHP o Formspree, la base visual ja queda resolta.',
+      contact_card_p2: "Ara mateix el formulari està preparat dins de la mateixa pàgina i mostra un missatge de simulació quan s'envia. Això et permet ensenyar estructura, UX i treball de front-end sense dependre encara d'un back-end real.",
+      form_name: 'Nom',
+      form_email: 'Correu electrònic',
+      form_subject: 'Assumpte',
+      form_message: 'Missatge',
+      form_name_placeholder: 'El teu nom',
+      form_email_placeholder: 'tu@email.com',
+      form_subject_placeholder: "Sobre una oportunitat, col·laboració o pràctiques",
+      form_message_placeholder: 'Escriu aquí el teu missatge...',
+      form_submit: 'Enviar missatge',
+      form_status_idle: 'El formulari està llest per ser connectat a un servei real.',
+      form_status_success: 'Missatge preparat. Ara mateix és una demo visual dins del portfolio.',
+      footer_made: 'Fet amb HTML · CSS · JS',
+      modal_label: 'Projecte',
+      modal_role_label: 'Rol',
+      modal_learned_label: 'Què vaig treballar',
+      modal_next_label: 'Següent pas',
+      close_label: 'Tancar',
+      skill_group_frontend_copy: "Interfícies netes, responsive i agradables de fer servir, amb especial atenció al detall visual i a l'estructura.",
+      skill_group_backend_copy: 'Construcció de lògica, integració entre capes i interès creixent pel costat més estructurat del desenvolupament.',
+      skill_group_tools_copy: 'Flux de treball pràctic per desenvolupar, versionar i prototipar projectes amb autonomia.',
+      skill_group_soft_copy: 'Bagatge previ en llengua i comunicació aplicat ara a projectes web més clars, coherents i ben explicats.',
+      contact_form_kicker: 'Formulari de contacte',
+      contact_form_title: "Escriu-me directament des d'aquí",
+      contact_form_copy: 'He deixat el formulari preparat per a Formspree perquè sigui fàcil de connectar i et pugui arribar al correu sense muntar backend propi.',
+      contact_links_title: 'Altres vies de contacte',
+      contact_email_label: 'Correu',
+      form_status_config: 'Canvia YOUR_FORM_ID pel teu endpoint de Formspree i ja quedarà actiu.',
+      form_status_sending: 'Preparant enviament…',
+      form_status_error: "No s'ha pogut enviar. Revisa la configuració de Formspree o prova més tard.",
+      contact_card_title: 'Com ho deixem preparat?',
+      contact_card_p1: "Només hauràs de substituir YOUR_FORM_ID per l'endpoint real de Formspree i el formulari ja podrà enviar submissions al teu correu.",
+      contact_card_p2: 'Això et permet tenir una web estàtica i, alhora, rebre missatges reals sense muntar PHP, servidor ni infraestructura extra.'
     },
     es: {
       nav_about: 'Sobre mí',
@@ -913,6 +1545,7 @@
       project_coming: 'Próximamente…',
       project_coming_desc: 'Nuevo proyecto en curso.',
       badge_progress: 'En proceso',
+      project_open_hint: 'Ver detalle del proyecto',
       skills_title: 'Habilidades',
       skill_group_frontend: 'Front-end',
       skill_group_backend: 'Back-end',
@@ -939,7 +1572,41 @@
       contact_eyebrow: 'Hablemos',
       contact_heading: '¿Te interesa mi perfil?',
       contact_sub: 'Estoy abierto a prácticas, colaboraciones y nuevos retos.',
-      footer_made: 'Hecho con HTML · CSS · JS'
+      contact_card_title: '¿Por qué un formulario?',
+      contact_card_p1: 'Porque da una sensación más profesional y convierte la página en un portfolio más completo. Aunque después quieras conectarlo con PHP o Formspree, la base visual ya queda resuelta.',
+      contact_card_p2: 'Ahora mismo el formulario está preparado dentro de la misma página y muestra un mensaje de simulación al enviarlo. Eso te permite enseñar estructura, UX y trabajo de front-end sin depender todavía de un back-end real.',
+      form_name: 'Nombre',
+      form_email: 'Correo electrónico',
+      form_subject: 'Asunto',
+      form_message: 'Mensaje',
+      form_name_placeholder: 'Tu nombre',
+      form_email_placeholder: 'tu@email.com',
+      form_subject_placeholder: 'Sobre una oportunidad, colaboración o prácticas',
+      form_message_placeholder: 'Escribe aquí tu mensaje...',
+      form_submit: 'Enviar mensaje',
+      form_status_idle: 'El formulario está listo para conectarse a un servicio real.',
+      form_status_success: 'Mensaje preparado. Ahora mismo es una demo visual dentro del portfolio.',
+      footer_made: 'Hecho con HTML · CSS · JS',
+      modal_label: 'Proyecto',
+      modal_role_label: 'Rol',
+      modal_learned_label: 'Qué trabajé',
+      modal_next_label: 'Siguiente paso',
+      close_label: 'Cerrar',
+      skill_group_frontend_copy: 'Interfaces limpias, responsive y agradables de usar, con especial atención al detalle visual y a la estructura.',
+      skill_group_backend_copy: 'Construcción de lógica, integración entre capas e interés creciente por la parte más estructurada del desarrollo.',
+      skill_group_tools_copy: 'Flujo de trabajo práctico para desarrollar, versionar y prototipar proyectos con autonomía.',
+      skill_group_soft_copy: 'Bagaje previo en lengua y comunicación aplicado ahora a proyectos web más claros, coherentes y bien explicados.',
+      contact_form_kicker: 'Formulario de contacto',
+      contact_form_title: 'Escríbeme directamente desde aquí',
+      contact_form_copy: 'He dejado el formulario preparado para Formspree para que sea fácil de conectar y pueda llegarte al correo sin montar backend propio.',
+      contact_links_title: 'Otras vías de contacto',
+      contact_email_label: 'Correo',
+      form_status_config: 'Cambia YOUR_FORM_ID por tu endpoint de Formspree y quedará activo.',
+      form_status_sending: 'Preparando envío…',
+      form_status_error: 'No se ha podido enviar. Revisa la configuración de Formspree o inténtalo más tarde.',
+      contact_card_title: '¿Cómo lo dejamos listo?',
+      contact_card_p1: 'Solo tendrás que sustituir YOUR_FORM_ID por el endpoint real de Formspree y el formulario ya podrá enviar envíos a tu correo.',
+      contact_card_p2: 'Esto te permite tener una web estática y, al mismo tiempo, recibir mensajes reales sin montar PHP, servidor ni infraestructura extra.'
     },
     en: {
       nav_about: 'About me',
@@ -974,6 +1641,7 @@
       project_coming: 'Coming soon…',
       project_coming_desc: 'New project in progress.',
       badge_progress: 'In progress',
+      project_open_hint: 'View project details',
       skills_title: 'Skills',
       skill_group_frontend: 'Front-end',
       skill_group_backend: 'Back-end',
@@ -1000,7 +1668,204 @@
       contact_eyebrow: 'Let’s talk',
       contact_heading: 'Interested in my profile?',
       contact_sub: 'I am open to internships, collaborations, and new challenges.',
-      footer_made: 'Built with HTML · CSS · JS'
+      contact_card_title: 'Why add a form?',
+      contact_card_p1: 'Because it feels more professional and turns the page into a more complete portfolio. Even if you later connect it to PHP or Formspree, the visual base is already solved.',
+      contact_card_p2: 'Right now the form is built directly into the page and shows a simulated success message when submitted. That lets you showcase structure, UX, and front-end work without needing a real back end yet.',
+      form_name: 'Name',
+      form_email: 'Email',
+      form_subject: 'Subject',
+      form_message: 'Message',
+      form_name_placeholder: 'Your name',
+      form_email_placeholder: 'you@email.com',
+      form_subject_placeholder: 'About an opportunity, collaboration, or internship',
+      form_message_placeholder: 'Write your message here...',
+      form_submit: 'Send message',
+      form_status_idle: 'The form is ready to be connected to a real service.',
+      form_status_success: 'Message prepared. Right now it is a visual demo inside the portfolio.',
+      footer_made: 'Built with HTML · CSS · JS',
+      modal_label: 'Project',
+      modal_role_label: 'Role',
+      modal_learned_label: 'What I worked on',
+      modal_next_label: 'Next step',
+      close_label: 'Close',
+      skill_group_frontend_copy: 'Clean, responsive, pleasant interfaces with careful attention to visual detail and structure.',
+      skill_group_backend_copy: 'Logic building, layer integration, and a growing interest in the more structured side of development.',
+      skill_group_tools_copy: 'A practical workflow to build, version, and prototype projects independently.',
+      skill_group_soft_copy: 'Previous language and communication background now applied to clearer, more coherent, better explained web projects.',
+      contact_form_kicker: 'Contact form',
+      contact_form_title: 'Write to me directly from here',
+      contact_form_copy: 'I prepared the form for Formspree so it is easy to connect and can send messages to your inbox without setting up your own backend.',
+      contact_links_title: 'Other contact options',
+      contact_email_label: 'Email',
+      form_status_config: 'Replace YOUR_FORM_ID with your Formspree endpoint and it will be live.',
+      form_status_sending: 'Preparing submission…',
+      form_status_error: 'It could not be sent. Check the Formspree configuration or try again later.',
+      contact_card_title: 'How do we leave it ready?',
+      contact_card_p1: 'You only need to replace YOUR_FORM_ID with the real Formspree endpoint and the form will be able to send submissions to your email.',
+      contact_card_p2: 'This lets you keep a static website while still receiving real messages without setting up PHP, a server, or extra infrastructure.'
+    }
+  };
+
+  const projectData = {
+    hometab: {
+      title: 'HomeTab',
+      label: { ca: 'Projecte principal', es: 'Proyecto principal', en: 'Main project' },
+      intro: {
+        ca: 'Una extensió pensada per convertir una nova pestanya buida en un espai útil i agradable.',
+        es: 'Una extensión pensada para convertir una nueva pestaña vacía en un espacio útil y agradable.',
+        en: 'An extension designed to turn an empty new tab into a useful and pleasant space.'
+      },
+      tech: ['HTML', 'CSS', 'JavaScript', 'Web Extensions API'],
+      role: {
+        ca: 'Disseny visual, maquetació, lògica de components i experiència d’usuari.',
+        es: 'Diseño visual, maquetación, lógica de componentes y experiencia de usuario.',
+        en: 'Visual design, layout, component logic, and user experience.'
+      },
+      learned: {
+        ca: ['Estructurar un dashboard modular', 'Treballar amb widgets i estat visual', 'Pensar una interfície útil per al dia a dia'],
+        es: ['Estructurar un dashboard modular', 'Trabajar con widgets y estado visual', 'Pensar una interfaz útil para el día a día'],
+        en: ['Structuring a modular dashboard', 'Working with widgets and visual state', 'Designing a useful day-to-day interface']
+      },
+      next: {
+        ca: 'Afegir personalització real, persistència i més components reutilitzables.',
+        es: 'Añadir personalización real, persistencia y más componentes reutilizables.',
+        en: 'Add real customization, persistence, and more reusable components.'
+      },
+      copy: {
+        ca: [
+          'Aquest projecte funciona molt bé com a peça principal perquè transmet una idea clara: no és només una pràctica, sinó una proposta de producte.',
+          'La previsualització que s’obre aquí dins actua com una mini pàgina del projecte i dona més profunditat al portfolio sense haver de crear quatre HTML separats.'
+        ],
+        es: [
+          'Este proyecto funciona muy bien como pieza principal porque transmite una idea clara: no es solo una práctica, sino una propuesta de producto.',
+          'La previsualización que se abre aquí dentro actúa como una mini página del proyecto y da más profundidad al portfolio sin tener que crear cuatro HTML separados.'
+        ],
+        en: [
+          'This project works very well as a flagship piece because it communicates a clear idea: it is not just an exercise, but a product concept.',
+          'The preview that opens here acts like a mini project page and gives the portfolio more depth without requiring four separate HTML files.'
+        ]
+      },
+      preview: 'dashboard'
+    },
+    slot: {
+      title: 'Tragaperras',
+      label: { ca: 'Pràctica', es: 'Práctica', en: 'Practice' },
+      intro: {
+        ca: 'Un exercici centrat en interacció, ritme visual i manipulació del DOM.',
+        es: 'Un ejercicio centrado en interacción, ritmo visual y manipulación del DOM.',
+        en: 'An exercise focused on interaction, visual rhythm, and DOM manipulation.'
+      },
+      tech: ['HTML', 'CSS', 'JavaScript'],
+      role: {
+        ca: 'Lògica del joc, animacions, estats de victòria i feedback visual.',
+        es: 'Lógica del juego, animaciones, estados de victoria y feedback visual.',
+        en: 'Game logic, animations, win states, and visual feedback.'
+      },
+      learned: {
+        ca: ['Coordinar animació i lògica', 'Gestionar interaccions repetides', 'Donar feedback immediat a l’usuari'],
+        es: ['Coordinar animación y lógica', 'Gestionar interacciones repetidas', 'Dar feedback inmediato al usuario'],
+        en: ['Coordinating animation and logic', 'Handling repeated interactions', 'Giving immediate user feedback']
+      },
+      next: {
+        ca: 'Afegir puntuació, sons i una millor persistència de l’estat.',
+        es: 'Añadir puntuación, sonidos y una mejor persistencia del estado.',
+        en: 'Add scoring, sounds, and better state persistence.'
+      },
+      copy: {
+        ca: [
+          'Encara que sigui una pràctica, té molta força visual. En un portfolio això és útil perquè demostra que també pots fer coses dinàmiques i no només pàgines estàtiques.',
+          'Per això aquí t’he afegit una vista ampliada: el visitant entén d’un cop d’ull que hi ha interacció, moviment i lògica.'
+        ],
+        es: [
+          'Aunque sea una práctica, tiene mucha fuerza visual. En un portfolio eso es útil porque demuestra que también puedes hacer cosas dinámicas y no solo páginas estáticas.',
+          'Por eso aquí te he añadido una vista ampliada: el visitante entiende de un vistazo que hay interacción, movimiento y lógica.'
+        ],
+        en: [
+          'Even as a practice project, it has strong visual energy. In a portfolio that matters because it shows you can build dynamic experiences, not only static pages.',
+          'That is why I added an expanded view here: the visitor immediately understands there is interaction, motion, and logic.'
+        ]
+      },
+      preview: 'slot'
+    },
+    weather: {
+      title: 'Aplicació del temps',
+      label: { ca: 'Pràctica', es: 'Práctica', en: 'Practice' },
+      intro: {
+        ca: 'Una app petita però molt bona per demostrar ús d’APIs i presentació de dades.',
+        es: 'Una app pequeña pero muy buena para demostrar uso de APIs y presentación de datos.',
+        en: 'A small but very effective app to show API usage and data presentation.'
+      },
+      tech: ['JavaScript', 'Fetch API', 'OpenWeather API', 'CSS'],
+      role: {
+        ca: 'Consum d’API, tractament de resposta, maquetació i visualització de dades.',
+        es: 'Consumo de API, tratamiento de respuesta, maquetación y visualización de datos.',
+        en: 'API consumption, response handling, layout, and data visualization.'
+      },
+      learned: {
+        ca: ['Fer peticions asíncrones', 'Treballar amb JSON', 'Mostrar informació de manera clara'],
+        es: ['Hacer peticiones asíncronas', 'Trabajar con JSON', 'Mostrar información de forma clara'],
+        en: ['Making asynchronous requests', 'Working with JSON', 'Presenting information clearly']
+      },
+      next: {
+        ca: 'Afegir geolocalització, icones més riques i previsió de diversos dies.',
+        es: 'Añadir geolocalización, iconos más ricos y previsión de varios días.',
+        en: 'Add geolocation, richer icons, and multi-day forecasts.'
+      },
+      copy: {
+        ca: [
+          'Aquest tipus de projecte dona confiança a qui et mira el portfolio, perquè deixa clar que no et quedes només en HTML i CSS.',
+          'També és una bona oportunitat per presentar dades de forma elegant, així que la vista ampliada està feta com una targeta d’app funcional.'
+        ],
+        es: [
+          'Este tipo de proyecto da confianza a quien mira tu portfolio, porque deja claro que no te quedas solo en HTML y CSS.',
+          'También es una buena oportunidad para presentar datos de forma elegante, así que la vista ampliada está hecha como una tarjeta de app funcional.'
+        ],
+        en: [
+          'This kind of project builds trust for anyone viewing your portfolio because it makes it clear you go beyond plain HTML and CSS.',
+          'It is also a good opportunity to present data elegantly, so the expanded view is styled like a functional app card.'
+        ]
+      },
+      preview: 'weather'
+    },
+    tolkien: {
+      title: "Tolkien's Rest",
+      label: { ca: 'Pràctica', es: 'Práctica', en: 'Practice' },
+      intro: {
+        ca: 'Una web més atmosfèrica, centrada en tema, maquetació i identitat visual.',
+        es: 'Una web más atmosférica, centrada en tema, maquetación e identidad visual.',
+        en: 'A more atmospheric website focused on theme, layout, and visual identity.'
+      },
+      tech: ['PHP', 'HTML', 'CSS'],
+      role: {
+        ca: 'Concepte visual, composició de pàgina i treball temàtic amb renderitzat del servidor.',
+        es: 'Concepto visual, composición de página y trabajo temático con renderizado del servidor.',
+        en: 'Visual concept, page composition, and thematic work with server-side rendering.'
+      },
+      learned: {
+        ca: ['Treballar una identitat coherent', 'Maquetar amb més ambició visual', 'Entendre una estructura clàssica amb PHP'],
+        es: ['Trabajar una identidad coherente', 'Maquetar con más ambición visual', 'Entender una estructura clásica con PHP'],
+        en: ['Building a coherent identity', 'Designing with more visual ambition', 'Understanding a classic PHP structure']
+      },
+      next: {
+        ca: 'Portar-lo cap a una versió més modular i enriquir el contingut interactiu.',
+        es: 'Llevarlo hacia una versión más modular y enriquecer el contenido interactivo.',
+        en: 'Move it toward a more modular version and enrich the interactive content.'
+      },
+      copy: {
+        ca: [
+          'No tot ha de ser dashboard, targetes i apps utilitàries. Aquest projecte ajuda a mostrar gust visual i capacitat de construir ambient.',
+          'Per això la mini pàgina s’ha plantejat amb un to més editorial i evocador.'
+        ],
+        es: [
+          'No todo tiene que ser dashboard, tarjetas y apps utilitarias. Este proyecto ayuda a mostrar gusto visual y capacidad para construir atmósfera.',
+          'Por eso la mini página se ha planteado con un tono más editorial y evocador.'
+        ],
+        en: [
+          'Not everything has to be dashboards, cards, and utility apps. This project helps show visual taste and the ability to build atmosphere.',
+          'That is why the mini page is designed with a more editorial and evocative tone.'
+        ]
+      },
+      preview: 'tolkien'
     }
   };
 
@@ -1010,8 +1875,85 @@
   const navLinks = document.getElementById('nav-links');
   const langSwitcher = document.getElementById('lang-switcher');
   const themeToggle = document.getElementById('theme-toggle');
+  const contactForm = document.getElementById('contact-form');
+  const contactStatus = document.getElementById('contact-status');
+  const projectModal = document.getElementById('project-modal');
+  const projectModalClose = document.getElementById('project-modal-close');
+
+  const previewTemplates = {
+    dashboard: () => `
+      <div class="preview-hero">
+        <div class="preview-panel">
+          <div class="preview-line medium"></div>
+          <div class="preview-line"></div>
+          <div class="preview-line short"></div>
+        </div>
+        <div class="preview-panel">
+          <div class="preview-line short"></div>
+          <div class="preview-line medium"></div>
+        </div>
+      </div>
+      <div class="preview-chip-row">
+        <div class="preview-chip"></div>
+        <div class="preview-chip"></div>
+        <div class="preview-chip"></div>
+      </div>
+      <div class="preview-grid">
+        <div class="preview-box"></div>
+        <div class="preview-box"></div>
+        <div class="preview-box"></div>
+      </div>
+    `,
+    slot: () => `
+      <div class="preview-panel">
+        <div class="preview-line short"></div>
+        <div class="preview-line medium"></div>
+      </div>
+      <div class="preview-grid">
+        <div class="preview-box"></div>
+        <div class="preview-box"></div>
+        <div class="preview-box"></div>
+      </div>
+      <div class="preview-panel">
+        <div class="preview-line medium"></div>
+        <div class="preview-line short"></div>
+      </div>
+    `,
+    weather: () => `
+      <div class="preview-panel">
+        <div class="preview-line short"></div>
+        <div class="preview-line medium"></div>
+        <div class="preview-line short"></div>
+      </div>
+      <div class="preview-grid">
+        <div class="preview-box"></div>
+        <div class="preview-box"></div>
+        <div class="preview-box"></div>
+      </div>
+      <div class="preview-chip-row">
+        <div class="preview-chip"></div>
+        <div class="preview-chip"></div>
+        <div class="preview-chip"></div>
+        <div class="preview-chip"></div>
+      </div>
+    `,
+    tolkien: () => `
+      <div class="preview-panel" style="min-height: 180px;">
+        <div class="preview-line medium"></div>
+        <div class="preview-line"></div>
+        <div class="preview-line short"></div>
+      </div>
+      <div class="preview-hero">
+        <div class="preview-panel"></div>
+        <div class="preview-panel"></div>
+      </div>
+    `
+  };
+
+  let currentLanguage = localStorage.getItem('portfolio-language') || 'ca';
 
   const applyLanguage = (lang) => {
+    currentLanguage = lang;
     const dictionary = translations[lang] || translations.ca;
     document.documentElement.lang = lang;
     document.querySelectorAll('[data-i18n]').forEach((element) => {
@@ -1020,6 +1962,17 @@
         element.textContent = dictionary[key];
       }
     });
+    document.querySelectorAll('[data-i18n-placeholder]').forEach((element) => {
+      const key = element.dataset.i18nPlaceholder;
+      if (dictionary[key]) {
+        element.setAttribute('placeholder', dictionary[key]);
+      }
+    });
+    projectModalClose.setAttribute('aria-label', dictionary.close_label);
+    document.getElementById('form-language').value = lang;
+    if (contactStatus && !contactForm.matches(':focus-within')) {
+      contactStatus.textContent = dictionary.form_status_config;
+    }
     localStorage.setItem('portfolio-language', lang);
   };
 
@@ -1028,7 +1981,61 @@
     localStorage.setItem('portfolio-theme', theme);
   };
 
-  const savedLanguage = localStorage.getItem('portfolio-language') || 'ca';
+  const renderProjectModal = (key) => {
+    const project = projectData[key];
+    if (!project) return;
+    const lang = currentLanguage;
+    document.getElementById('project-modal-label').textContent = translations[lang].modal_label;
+    document.getElementById('project-modal-title').textContent = project.title;
+    document.getElementById('project-modal-intro').textContent = project.intro[lang];
+    document.getElementById('project-sidebar-role-label').textContent = translations[lang].modal_role_label;
+    document.getElementById('project-sidebar-role').textContent = project.role[lang];
+    document.getElementById('project-sidebar-learned-label').textContent = translations[lang].modal_learned_label;
+    document.getElementById('project-sidebar-next-label').textContent = translations[lang].modal_next_label;
+    document.getElementById('project-sidebar-next').textContent = project.next[lang];
+
+    const techWrap = document.getElementById('project-modal-tech');
+    techWrap.innerHTML = '';
+    const label = document.createElement('span');
+    label.className = 'project-badge';
+    label.textContent = project.label[lang];
+    techWrap.appendChild(label);
+    project.tech.forEach((item) => {
+      const pill = document.createElement('span');
+      pill.className = 'tech-pill';
+      pill.textContent = item;
+      techWrap.appendChild(pill);
+    });
+
+    const copyWrap = document.getElementById('project-modal-copy');
+    copyWrap.innerHTML = '';
+    project.copy[lang].forEach((paragraph) => {
+      const p = document.createElement('p');
+      p.textContent = paragraph;
+      copyWrap.appendChild(p);
+    });
+
+    const learnedWrap = document.getElementById('project-sidebar-learned');
+    learnedWrap.innerHTML = '';
+    project.learned[lang].forEach((item) => {
+      const li = document.createElement('li');
+      li.textContent = item;
+      learnedWrap.appendChild(li);
+    });
+
+    document.getElementById('project-preview-body').innerHTML = previewTemplates[project.preview]();
+    projectModal.classList.add('open');
+    projectModal.setAttribute('aria-hidden', 'false');
+    body.style.overflow = 'hidden';
+  };
+
+  const closeProjectModal = () => {
+    projectModal.classList.remove('open');
+    projectModal.setAttribute('aria-hidden', 'true');
+    body.style.overflow = '';
+  };
+
+  const savedLanguage = currentLanguage;
   const savedTheme = localStorage.getItem('portfolio-theme') || 'light';
   langSwitcher.value = savedLanguage;
   applyLanguage(savedLanguage);
@@ -1055,6 +2062,40 @@
     a.addEventListener('click', () => navLinks.classList.remove('open'));
   });
 
+  document.querySelectorAll('.project-item[data-project]').forEach((item) => {
+    const open = () => renderProjectModal(item.dataset.project);
+    item.addEventListener('click', open);
+    item.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        open();
+      }
+    });
+  });
+
+  projectModalClose.addEventListener('click', closeProjectModal);
+  projectModal.addEventListener('click', (event) => {
+    if (event.target === projectModal) closeProjectModal();
+  });
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && projectModal.classList.contains('open')) {
+      closeProjectModal();
+    }
+  });
+
+  contactForm.addEventListener('submit', (event) => {
+    const action = (contactForm.getAttribute('action') || '').trim();
+    const hasPlaceholder = action.includes('YOUR_FORM_ID');
+
+    if (hasPlaceholder) {
+      event.preventDefault();
+      contactStatus.textContent = translations[currentLanguage].form_status_config;
+      return;
+    }
+
+    contactStatus.textContent = translations[currentLanguage].form_status_sending;
+  });
+
   const reveals = document.querySelectorAll('.reveal');
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
@@ -1069,6 +2110,7 @@
 
   reveals.forEach(el => observer.observe(el));
 </script>
+
 
 </body>
 </html>

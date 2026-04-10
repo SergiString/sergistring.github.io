@@ -24,6 +24,16 @@
       --mono: 'DM Mono', monospace;
     }
 
+    body[data-theme="dark"] {
+      --cream: #14110F;
+      --ink: #F7F3EE;
+      --ink-muted: #D0C7BE;
+      --ink-faint: #9E9389;
+      --accent: #E46C5B;
+      --accent-soft: #2B1C19;
+      --rule: #3B322C;
+    }
+
     html { scroll-behavior: smooth; }
 
     body {
@@ -33,6 +43,7 @@
       font-size: 16px;
       line-height: 1.7;
       overflow-x: hidden;
+      transition: background 0.3s ease, color 0.3s ease;
     }
 
     /* ── NAV ── */
@@ -478,7 +489,40 @@
       transition: all 0.3s;
     }
 
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .nav-control {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--ink-muted);
+      background: transparent;
+      border: 1px solid var(--rule);
+      padding: 6px 10px;
+      letter-spacing: 0.05em;
+    }
+
+    .nav-control:focus-visible,
+    .btn:focus-visible,
+    .nav-links a:focus-visible,
+    .nav-brand:focus-visible,
+    .nav-toggle:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
     @media (max-width: 600px) {
+      .nav-actions {
+        gap: 0.5rem;
+      }
+      .nav-control {
+        padding: 5px 8px;
+        font-size: 10px;
+      }
       .nav-toggle { display: flex; }
       .nav-links {
         display: none;
@@ -508,24 +552,32 @@
     <span>//</span> el-teu-nom
   </a>
   <ul class="nav-links" id="nav-links">
-    <li><a href="#sobre">Sobre mi</a></li>
-    <li><a href="#projectes">Projectes</a></li>
-    <li><a href="#habilitats">Habilitats</a></li>
-    <li><a href="#contact">Contacte</a></li>
+    <li><a href="#sobre" data-i18n="nav_about">Sobre mi</a></li>
+    <li><a href="#projectes" data-i18n="nav_projects">Projectes</a></li>
+    <li><a href="#habilitats" data-i18n="nav_skills">Habilitats</a></li>
+    <li><a href="#contact" data-i18n="nav_contact">Contacte</a></li>
   </ul>
-  <button class="nav-toggle" id="nav-toggle" aria-label="Menú">
-    <span></span><span></span><span></span>
-  </button>
+  <div class="nav-actions">
+    <select class="nav-control" id="lang-switcher" aria-label="Canviar idioma">
+      <option value="ca">CAT</option>
+      <option value="es">ESP</option>
+      <option value="en">ENG</option>
+    </select>
+    <button class="nav-control" id="theme-toggle" type="button" data-i18n="theme_toggle">Mode fosc</button>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Menú">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
 </nav>
 
 <!-- ── HERO ── -->
 <section id="hero">
   <div class="hero-decoration" aria-hidden="true">&lt;/&gt;</div>
 
-  <p class="hero-label">Estudiant 2n DAW · Girona</p>
+  <p class="hero-label" data-i18n="hero_label">Estudiant 2n DAW · Girona</p>
   <h1 class="hero-name">[El teu<br>nom complet]</h1>
-  <p class="hero-name-sub">Traductor & Desenvolupador Web</p>
-  <p class="hero-desc">
+  <p class="hero-name-sub" data-i18n="hero_sub">Traductor & Desenvolupador Web</p>
+  <p class="hero-desc" data-i18n="hero_desc">
     Vinc de les paraules i m'he enamorat del codi. Combino la precisió
     del llenguatge amb la lògica del programari per construir experiències web
     que funcionen i que es llegeixen bé.
@@ -538,8 +590,8 @@
     <span class="tag">Ex-traductor</span>
   </div>
   <div class="hero-cta">
-    <a href="#projectes" class="btn btn-primary">Veure projectes</a>
-    <a href="#contact" class="btn btn-outline">Contactar</a>
+    <a href="#projectes" class="btn btn-primary" data-i18n="hero_cta_projects">Veure projectes</a>
+    <a href="#contact" class="btn btn-outline" data-i18n="hero_cta_contact">Contactar</a>
   </div>
 </section>
 
@@ -547,25 +599,25 @@
 <section id="sobre">
   <div class="section-header reveal">
     <span class="section-num">01</span>
-    <h2 class="section-title">Sobre mi</h2>
+    <h2 class="section-title" data-i18n="about_title">Sobre mi</h2>
     <div class="section-rule"></div>
   </div>
 
   <div class="about-grid reveal">
     <div class="about-text">
-      <p>
+      <p data-i18n="about_p1">
         Soc [nom], estudiant de segon curs del cicle de Desenvolupament
         d'Aplicacions Web (DAW) a [nom del centre]. Però la meva història no
         comença amb el codi: durant anys vaig treballar com a traductor, cosa
         que em va ensenyar que comunicar-se amb precisió és tan important
         en un text com en una funció.
       </p>
-      <p>
+      <p data-i18n="about_p2">
         Ara aplico aquella mateixa atenció al detall en el disseny d'interfícies
         i en l'arquitectura d'aplicacions. M'interessa especialment el
         desenvolupament front-end, però tinc curiositat per tot l'stack.
       </p>
-      <p>
+      <p data-i18n="about_p3">
         Quan no codifico, tradueixo, llegeixo ciència-ficció o faig senderisme
         per l'entorn de Girona.
       </p>
@@ -573,20 +625,20 @@
 
     <div class="about-aside">
       <div class="aside-block">
-        <p class="aside-label">Formació actual</p>
-        <p class="aside-value">2n DAW — [Nom del centre]</p>
+        <p class="aside-label" data-i18n="aside_current_education">Formació actual</p>
+        <p class="aside-value" data-i18n="aside_current_education_value">2n DAW — [Nom del centre]</p>
       </div>
       <div class="aside-block">
-        <p class="aside-label">Abans</p>
-        <p class="aside-value">Traductor professional</p>
+        <p class="aside-label" data-i18n="aside_before">Abans</p>
+        <p class="aside-value" data-i18n="aside_before_value">Traductor professional</p>
       </div>
       <div class="aside-block">
-        <p class="aside-label">Idiomes</p>
-        <p class="aside-value">Català · Castellà · Anglès</p>
+        <p class="aside-label" data-i18n="aside_languages">Idiomes</p>
+        <p class="aside-value" data-i18n="aside_languages_value">Català · Castellà · Anglès</p>
       </div>
       <div class="aside-block">
-        <p class="aside-label">Localització</p>
-        <p class="aside-value">Girona, Catalunya</p>
+        <p class="aside-label" data-i18n="aside_location">Localització</p>
+        <p class="aside-value" data-i18n="aside_location_value">Girona, Catalunya</p>
       </div>
     </div>
   </div>
@@ -596,7 +648,7 @@
 <section id="projectes">
   <div class="section-header reveal">
     <span class="section-num">02</span>
-    <h2 class="section-title">Projectes</h2>
+    <h2 class="section-title" data-i18n="projects_title">Projectes</h2>
     <div class="section-rule"></div>
   </div>
 
@@ -607,7 +659,7 @@
       <span class="project-num">01</span>
       <div>
         <h3 class="project-name">HomeTab</h3>
-        <p class="project-desc">
+        <p class="project-desc" data-i18n="project_desc_1">
           Extensió de navegador que substitueix la pestanya nova amb un
           tauler personalitzable: temps, notes ràpides, dreceres i un
           rellotge. Primer projecte significatiu del curs.
@@ -619,7 +671,7 @@
           <span class="tech-pill">Web Extensions API</span>
         </div>
       </div>
-      <span class="project-badge featured">Projecte principal</span>
+      <span class="project-badge featured" data-i18n="badge_featured">Projecte principal</span>
     </div>
 
     <!-- Tragaperras -->
@@ -627,7 +679,7 @@
       <span class="project-num">02</span>
       <div>
         <h3 class="project-name">Tragaperras</h3>
-        <p class="project-desc">
+        <p class="project-desc" data-i18n="project_desc_2">
           Màquina escurabutxaques interactiva al navegador. Implementa
           lògica de rodets, animacions CSS i gestió d'estat amb JS pur.
           Bon exercici de manipulació del DOM.
@@ -638,7 +690,7 @@
           <span class="tech-pill">JavaScript</span>
         </div>
       </div>
-      <span class="project-badge">Pràctica</span>
+      <span class="project-badge" data-i18n="badge_practice">Pràctica</span>
     </div>
 
     <!-- Aplicació del temps -->
@@ -646,7 +698,7 @@
       <span class="project-num">03</span>
       <div>
         <h3 class="project-name">Aplicació del temps</h3>
-        <p class="project-desc">
+        <p class="project-desc" data-i18n="project_desc_3">
           App meteorològica que consulta una API externa i mostra la
           previsió per a qualsevol localitat. Primera presa de contacte
           amb peticions HTTP asíncrones i JSON.
@@ -658,7 +710,7 @@
           <span class="tech-pill">CSS</span>
         </div>
       </div>
-      <span class="project-badge">Pràctica</span>
+      <span class="project-badge" data-i18n="badge_practice">Pràctica</span>
     </div>
 
     <!-- Tolkien's Rest -->
@@ -666,7 +718,7 @@
       <span class="project-num">04</span>
       <div>
         <h3 class="project-name">Tolkien's Rest</h3>
-        <p class="project-desc">
+        <p class="project-desc" data-i18n="project_desc_4">
           Pàgina web estàtica amb PHP monolític temàtica tolkieniana.
           Exercici de maquetació avançada, estructura de fitxers i
           renderitzat del servidor.
@@ -677,18 +729,18 @@
           <span class="tech-pill">CSS</span>
         </div>
       </div>
-      <span class="project-badge">Pràctica</span>
+      <span class="project-badge" data-i18n="badge_practice">Pràctica</span>
     </div>
 
     <!-- Placeholder futur -->
     <div class="project-item reveal" style="opacity:0.45; pointer-events:none;">
       <span class="project-num">05</span>
       <div>
-        <h3 class="project-name" style="font-style:italic; color: var(--ink-faint);">Properament…</h3>
-        <p class="project-desc">Nou projecte en curs.</p>
+        <h3 class="project-name" style="font-style:italic; color: var(--ink-faint);" data-i18n="project_coming">Properament…</h3>
+        <p class="project-desc" data-i18n="project_coming_desc">Nou projecte en curs.</p>
         <div class="project-tech"></div>
       </div>
-      <span class="project-badge">En procés</span>
+      <span class="project-badge" data-i18n="badge_progress">En procés</span>
     </div>
 
   </div>
@@ -698,47 +750,47 @@
 <section id="habilitats">
   <div class="section-header reveal">
     <span class="section-num">03</span>
-    <h2 class="section-title">Habilitats</h2>
+    <h2 class="section-title" data-i18n="skills_title">Habilitats</h2>
     <div class="section-rule"></div>
   </div>
 
   <div class="skills-grid reveal">
     <div class="skill-group">
-      <p class="skill-group-title">Front-end</p>
+      <p class="skill-group-title" data-i18n="skill_group_frontend">Front-end</p>
       <ul class="skill-list">
-        <li>HTML5 semàntic</li>
-        <li>CSS3 / Flexbox / Grid</li>
-        <li>JavaScript (ES6+)</li>
-        <li>DOM · Events · Fetch</li>
-        <li>Responsive design</li>
+        <li data-i18n="skill_html">HTML5 semàntic</li>
+        <li data-i18n="skill_css">CSS3 / Flexbox / Grid</li>
+        <li data-i18n="skill_js">JavaScript (ES6+)</li>
+        <li data-i18n="skill_dom">DOM · Events · Fetch</li>
+        <li data-i18n="skill_responsive">Responsive design</li>
       </ul>
     </div>
     <div class="skill-group">
-      <p class="skill-group-title">Back-end</p>
+      <p class="skill-group-title" data-i18n="skill_group_backend">Back-end</p>
       <ul class="skill-list">
-        <li>PHP monolític</li>
-        <li>Java (aprenent)</li>
-        <li>SQL bàsic</li>
-        <li>Estructura MVC</li>
+        <li data-i18n="skill_php">PHP monolític</li>
+        <li data-i18n="skill_java">Java (aprenent)</li>
+        <li data-i18n="skill_sql">SQL bàsic</li>
+        <li data-i18n="skill_mvc">Estructura MVC</li>
       </ul>
     </div>
     <div class="skill-group">
-      <p class="skill-group-title">Eines</p>
+      <p class="skill-group-title" data-i18n="skill_group_tools">Eines</p>
       <ul class="skill-list">
-        <li>Git / GitHub</li>
-        <li>VS Code</li>
-        <li>Figma (bàsic)</li>
-        <li>Terminal / Bash</li>
+        <li data-i18n="skill_git">Git / GitHub</li>
+        <li data-i18n="skill_vscode">VS Code</li>
+        <li data-i18n="skill_figma">Figma (bàsic)</li>
+        <li data-i18n="skill_terminal">Terminal / Bash</li>
       </ul>
     </div>
     <div class="skill-group">
-      <p class="skill-group-title">Soft skills</p>
+      <p class="skill-group-title" data-i18n="skill_group_soft">Soft skills</p>
       <ul class="skill-list">
-        <li>Precisió lingüística</li>
-        <li>Gestió del detall</li>
-        <li>Comunicació escrita</li>
-        <li>Aprenentatge autònom</li>
-        <li>Treball en equip</li>
+        <li data-i18n="skill_precision">Precisió lingüística</li>
+        <li data-i18n="skill_detail">Gestió del detall</li>
+        <li data-i18n="skill_written">Comunicació escrita</li>
+        <li data-i18n="skill_learning">Aprenentatge autònom</li>
+        <li data-i18n="skill_team">Treball en equip</li>
       </ul>
     </div>
   </div>
@@ -746,9 +798,9 @@
 
 <!-- ── CONTACTE ── -->
 <section id="contact">
-  <p class="contact-eyebrow reveal">Parlem</p>
-  <h2 class="contact-heading reveal">T'interessa el meu perfil?</h2>
-  <p class="contact-sub reveal">
+  <p class="contact-eyebrow reveal" data-i18n="contact_eyebrow">Parlem</p>
+  <h2 class="contact-heading reveal" data-i18n="contact_heading">T'interessa el meu perfil?</h2>
+  <p class="contact-sub reveal" data-i18n="contact_sub">
     Estic obert a pràctiques, col·laboracions i nous reptes.
   </p>
   <div class="contact-links reveal">
@@ -761,31 +813,251 @@
 <!-- ── FOOTER ── -->
 <footer>
   <span>[El teu nom] · 2025</span>
-  <span>Fet amb HTML · CSS · JS</span>
+  <span data-i18n="footer_made">Fet amb HTML · CSS · JS</span>
 </footer>
 
 <!-- ── JS ── -->
 <script>
-  // Nav scroll shadow
+  const translations = {
+    ca: {
+      nav_about: 'Sobre mi',
+      nav_projects: 'Projectes',
+      nav_skills: 'Habilitats',
+      nav_contact: 'Contacte',
+      theme_toggle: 'Mode fosc',
+      hero_label: 'Estudiant 2n DAW · Girona',
+      hero_sub: 'Traductor & Desenvolupador Web',
+      hero_desc: "Vinc de les paraules i m'he enamorat del codi. Combino la precisió del llenguatge amb la lògica del programari per construir experiències web que funcionen i que es llegeixen bé.",
+      hero_cta_projects: 'Veure projectes',
+      hero_cta_contact: 'Contactar',
+      about_title: 'Sobre mi',
+      about_p1: "Soc [nom], estudiant de segon curs del cicle de Desenvolupament d'Aplicacions Web (DAW) a [nom del centre]. Però la meva història no comença amb el codi: durant anys vaig treballar com a traductor, cosa que em va ensenyar que comunicar-se amb precisió és tan important en un text com en una funció.",
+      about_p2: "Ara aplico aquella mateixa atenció al detall en el disseny d'interfícies i en l'arquitectura d'aplicacions. M'interessa especialment el desenvolupament front-end, però tinc curiositat per tot l'stack.",
+      about_p3: "Quan no codifico, tradueixo, llegeixo ciència-ficció o faig senderisme per l'entorn de Girona.",
+      aside_current_education: 'Formació actual',
+      aside_current_education_value: '2n DAW — [Nom del centre]',
+      aside_before: 'Abans',
+      aside_before_value: 'Traductor professional',
+      aside_languages: 'Idiomes',
+      aside_languages_value: 'Català · Castellà · Anglès',
+      aside_location: 'Localització',
+      aside_location_value: 'Girona, Catalunya',
+      projects_title: 'Projectes',
+      project_desc_1: 'Extensió de navegador que substitueix la pestanya nova amb un tauler personalitzable: temps, notes ràpides, dreceres i un rellotge. Primer projecte significatiu del curs.',
+      project_desc_2: "Màquina escurabutxaques interactiva al navegador. Implementa lògica de rodets, animacions CSS i gestió d'estat amb JS pur. Bon exercici de manipulació del DOM.",
+      project_desc_3: 'App meteorològica que consulta una API externa i mostra la previsió per a qualsevol localitat. Primera presa de contacte amb peticions HTTP asíncrones i JSON.',
+      project_desc_4: 'Pàgina web estàtica amb PHP monolític temàtica tolkieniana. Exercici de maquetació avançada, estructura de fitxers i renderitzat del servidor.',
+      badge_featured: 'Projecte principal',
+      badge_practice: 'Pràctica',
+      project_coming: 'Properament…',
+      project_coming_desc: 'Nou projecte en curs.',
+      badge_progress: 'En procés',
+      skills_title: 'Habilitats',
+      skill_group_frontend: 'Front-end',
+      skill_group_backend: 'Back-end',
+      skill_group_tools: 'Eines',
+      skill_group_soft: 'Soft skills',
+      skill_html: 'HTML5 semàntic',
+      skill_css: 'CSS3 / Flexbox / Grid',
+      skill_js: 'JavaScript (ES6+)',
+      skill_dom: 'DOM · Events · Fetch',
+      skill_responsive: 'Responsive design',
+      skill_php: 'PHP monolític',
+      skill_java: 'Java (aprenent)',
+      skill_sql: 'SQL bàsic',
+      skill_mvc: 'Estructura MVC',
+      skill_git: 'Git / GitHub',
+      skill_vscode: 'VS Code',
+      skill_figma: 'Figma (bàsic)',
+      skill_terminal: 'Terminal / Bash',
+      skill_precision: 'Precisió lingüística',
+      skill_detail: 'Gestió del detall',
+      skill_written: 'Comunicació escrita',
+      skill_learning: 'Aprenentatge autònom',
+      skill_team: 'Treball en equip',
+      contact_eyebrow: 'Parlem',
+      contact_heading: "T'interessa el meu perfil?",
+      contact_sub: 'Estic obert a pràctiques, col·laboracions i nous reptes.',
+      footer_made: 'Fet amb HTML · CSS · JS'
+    },
+    es: {
+      nav_about: 'Sobre mí',
+      nav_projects: 'Proyectos',
+      nav_skills: 'Habilidades',
+      nav_contact: 'Contacto',
+      theme_toggle: 'Modo oscuro',
+      hero_label: 'Estudiante de 2º DAW · Girona',
+      hero_sub: 'Traductor y Desarrollador Web',
+      hero_desc: 'Vengo de las palabras y me he enamorado del código. Combino la precisión del lenguaje con la lógica del software para construir experiencias web que funcionan y que se leen bien.',
+      hero_cta_projects: 'Ver proyectos',
+      hero_cta_contact: 'Contactar',
+      about_title: 'Sobre mí',
+      about_p1: 'Soy [nombre], estudiante de segundo curso del ciclo de Desarrollo de Aplicaciones Web (DAW) en [nombre del centro]. Pero mi historia no empieza con el código: durante años trabajé como traductor, lo que me enseñó que comunicarse con precisión es tan importante en un texto como en una función.',
+      about_p2: 'Ahora aplico esa misma atención al detalle en el diseño de interfaces y en la arquitectura de aplicaciones. Me interesa especialmente el desarrollo front-end, pero tengo curiosidad por todo el stack.',
+      about_p3: 'Cuando no programo, traduzco, leo ciencia ficción o hago senderismo por la zona de Girona.',
+      aside_current_education: 'Formación actual',
+      aside_current_education_value: '2º DAW — [Nombre del centro]',
+      aside_before: 'Antes',
+      aside_before_value: 'Traductor profesional',
+      aside_languages: 'Idiomas',
+      aside_languages_value: 'Catalán · Castellano · Inglés',
+      aside_location: 'Ubicación',
+      aside_location_value: 'Girona, Cataluña',
+      projects_title: 'Proyectos',
+      project_desc_1: 'Extensión de navegador que sustituye la pestaña nueva por un panel personalizable: tiempo, notas rápidas, accesos directos y un reloj. Primer proyecto significativo del curso.',
+      project_desc_2: 'Máquina tragaperras interactiva en el navegador. Implementa lógica de rodillos, animaciones CSS y gestión de estado con JS puro. Buen ejercicio de manipulación del DOM.',
+      project_desc_3: 'App meteorológica que consulta una API externa y muestra la previsión para cualquier localidad. Primer contacto con peticiones HTTP asíncronas y JSON.',
+      project_desc_4: 'Página web estática con PHP monolítico de temática tolkieniana. Ejercicio de maquetación avanzada, estructura de archivos y renderizado del servidor.',
+      badge_featured: 'Proyecto principal',
+      badge_practice: 'Práctica',
+      project_coming: 'Próximamente…',
+      project_coming_desc: 'Nuevo proyecto en curso.',
+      badge_progress: 'En proceso',
+      skills_title: 'Habilidades',
+      skill_group_frontend: 'Front-end',
+      skill_group_backend: 'Back-end',
+      skill_group_tools: 'Herramientas',
+      skill_group_soft: 'Soft skills',
+      skill_html: 'HTML5 semántico',
+      skill_css: 'CSS3 / Flexbox / Grid',
+      skill_js: 'JavaScript (ES6+)',
+      skill_dom: 'DOM · Eventos · Fetch',
+      skill_responsive: 'Diseño responsive',
+      skill_php: 'PHP monolítico',
+      skill_java: 'Java (aprendiendo)',
+      skill_sql: 'SQL básico',
+      skill_mvc: 'Estructura MVC',
+      skill_git: 'Git / GitHub',
+      skill_vscode: 'VS Code',
+      skill_figma: 'Figma (básico)',
+      skill_terminal: 'Terminal / Bash',
+      skill_precision: 'Precisión lingüística',
+      skill_detail: 'Atención al detalle',
+      skill_written: 'Comunicación escrita',
+      skill_learning: 'Aprendizaje autónomo',
+      skill_team: 'Trabajo en equipo',
+      contact_eyebrow: 'Hablemos',
+      contact_heading: '¿Te interesa mi perfil?',
+      contact_sub: 'Estoy abierto a prácticas, colaboraciones y nuevos retos.',
+      footer_made: 'Hecho con HTML · CSS · JS'
+    },
+    en: {
+      nav_about: 'About me',
+      nav_projects: 'Projects',
+      nav_skills: 'Skills',
+      nav_contact: 'Contact',
+      theme_toggle: 'Dark mode',
+      hero_label: '2nd year DAW student · Girona',
+      hero_sub: 'Translator & Web Developer',
+      hero_desc: 'I come from words and I fell in love with code. I combine linguistic precision with software logic to build web experiences that work well and read well.',
+      hero_cta_projects: 'View projects',
+      hero_cta_contact: 'Get in touch',
+      about_title: 'About me',
+      about_p1: 'I am [name], a second-year student in the Web Application Development program (DAW) at [school name]. But my story does not start with code: for years I worked as a translator, which taught me that communicating with precision is as important in a text as it is in a function.',
+      about_p2: 'Now I apply that same attention to detail to interface design and application architecture. I am especially interested in front-end development, but I am curious about the whole stack.',
+      about_p3: 'When I am not coding, I translate, read science fiction, or go hiking around Girona.',
+      aside_current_education: 'Current education',
+      aside_current_education_value: '2nd year DAW — [School name]',
+      aside_before: 'Before',
+      aside_before_value: 'Professional translator',
+      aside_languages: 'Languages',
+      aside_languages_value: 'Catalan · Spanish · English',
+      aside_location: 'Location',
+      aside_location_value: 'Girona, Catalonia',
+      projects_title: 'Projects',
+      project_desc_1: 'Browser extension that replaces the new tab with a customizable dashboard: weather, quick notes, shortcuts, and a clock. First meaningful project in the course.',
+      project_desc_2: 'Interactive slot machine in the browser. It implements reel logic, CSS animations, and state management with vanilla JS. A good DOM manipulation exercise.',
+      project_desc_3: 'Weather app that queries an external API and shows the forecast for any location. First contact with asynchronous HTTP requests and JSON.',
+      project_desc_4: 'Static Tolkien-themed website built with monolithic PHP. Exercise in advanced layout, file structure, and server-side rendering.',
+      badge_featured: 'Main project',
+      badge_practice: 'Practice',
+      project_coming: 'Coming soon…',
+      project_coming_desc: 'New project in progress.',
+      badge_progress: 'In progress',
+      skills_title: 'Skills',
+      skill_group_frontend: 'Front-end',
+      skill_group_backend: 'Back-end',
+      skill_group_tools: 'Tools',
+      skill_group_soft: 'Soft skills',
+      skill_html: 'Semantic HTML5',
+      skill_css: 'CSS3 / Flexbox / Grid',
+      skill_js: 'JavaScript (ES6+)',
+      skill_dom: 'DOM · Events · Fetch',
+      skill_responsive: 'Responsive design',
+      skill_php: 'Monolithic PHP',
+      skill_java: 'Java (learning)',
+      skill_sql: 'Basic SQL',
+      skill_mvc: 'MVC structure',
+      skill_git: 'Git / GitHub',
+      skill_vscode: 'VS Code',
+      skill_figma: 'Figma (basic)',
+      skill_terminal: 'Terminal / Bash',
+      skill_precision: 'Linguistic precision',
+      skill_detail: 'Attention to detail',
+      skill_written: 'Written communication',
+      skill_learning: 'Self-directed learning',
+      skill_team: 'Teamwork',
+      contact_eyebrow: 'Let’s talk',
+      contact_heading: 'Interested in my profile?',
+      contact_sub: 'I am open to internships, collaborations, and new challenges.',
+      footer_made: 'Built with HTML · CSS · JS'
+    }
+  };
+
+  const body = document.body;
   const nav = document.getElementById('nav');
+  const toggle = document.getElementById('nav-toggle');
+  const navLinks = document.getElementById('nav-links');
+  const langSwitcher = document.getElementById('lang-switcher');
+  const themeToggle = document.getElementById('theme-toggle');
+
+  const applyLanguage = (lang) => {
+    const dictionary = translations[lang] || translations.ca;
+    document.documentElement.lang = lang;
+    document.querySelectorAll('[data-i18n]').forEach((element) => {
+      const key = element.dataset.i18n;
+      if (dictionary[key]) {
+        element.textContent = dictionary[key];
+      }
+    });
+    localStorage.setItem('portfolio-language', lang);
+  };
+
+  const applyTheme = (theme) => {
+    body.setAttribute('data-theme', theme);
+    localStorage.setItem('portfolio-theme', theme);
+  };
+
+  const savedLanguage = localStorage.getItem('portfolio-language') || 'ca';
+  const savedTheme = localStorage.getItem('portfolio-theme') || 'light';
+  langSwitcher.value = savedLanguage;
+  applyLanguage(savedLanguage);
+  applyTheme(savedTheme);
+
+  themeToggle.addEventListener('click', () => {
+    const nextTheme = body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    applyTheme(nextTheme);
+  });
+
+  langSwitcher.addEventListener('change', (event) => {
+    applyLanguage(event.target.value);
+  });
+
   window.addEventListener('scroll', () => {
     nav.classList.toggle('scrolled', window.scrollY > 10);
   });
 
-  // Mobile menu
-  const toggle = document.getElementById('nav-toggle');
-  const navLinks = document.getElementById('nav-links');
   toggle.addEventListener('click', () => {
     navLinks.classList.toggle('open');
   });
+
   navLinks.querySelectorAll('a').forEach(a => {
     a.addEventListener('click', () => navLinks.classList.remove('open'));
   });
 
-  // Reveal on scroll
   const reveals = document.querySelectorAll('.reveal');
   const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry, i) => {
+    entries.forEach((entry) => {
       if (entry.isIntersecting) {
         const siblings = Array.from(entry.target.parentElement.querySelectorAll('.reveal'));
         const idx = siblings.indexOf(entry.target);
